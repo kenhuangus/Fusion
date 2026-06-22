@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fusion Skill"
+  short_description: "Manage project work safely with Fusion"
+  default_prompt: "Use Fusion ($fusion) to initialize this project and manage its work."

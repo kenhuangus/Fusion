@@ -1,11 +1,13 @@
 ---
 name: fusion
-description: AI-orchestrated task board (Fusion) interface. Use when working with the Fusion task management system, creating or managing tasks, understanding task workflows, organizing work into missions, or interfacing with the Fusion dashboard. Triggers on "create a task", "list tasks", "show board", "plan a mission", "check task status", "import issues", or any Fusion interaction.
+description: Use Fusion to initialize repositories and manage projects, tasks, goals, missions, research, agents, and dashboards. Trigger when the user says "Fusion," "Fusion skill," "use Fusion," or asks Fusion to create, inspect, organize, execute, or monitor project work. Use registered fn_* tools when available and otherwise use the global Fusion CLI.
 ---
 
 <essential_principles>
 
 Fusion is an AI-orchestrated task board. You throw in rough ideas; AI specifies, executes, reviews, and delivers them.
+
+**Integration selection:** Use registered `fn_*` tools when the current agent exposes them. Otherwise, use the globally installed `fn` CLI from the target repository root. Codex sessions normally use this CLI fallback; see `references/codex-cli-workflows.md`. Never invent tool calls that are not registered in the current session.
 
 **Task lifecycle:** Triage → Todo → In Progress → In Review → Done → Archived
 
@@ -19,7 +21,7 @@ Fusion is an AI-orchestrated task board. You throw in rough ideas; AI specifies,
 **Missions** provide hierarchical planning above tasks:
 Mission → Milestone → Slice → Feature → Task
 
-**Available tools:** Fusion registers tools (prefixed `fn_*`). No CLI commands or Bash needed — use the registered tools directly.
+**Available tools:** When Fusion tools prefixed `fn_*` are registered, use them directly. When they are absent, use the global `fn` CLI described in `references/codex-cli-workflows.md`.
 
 **Naming boundary:** The published skill surface uses `fn_*` tool names (for example `fn_task_create`, `fn_mission_create`). Engine runtime sessions also inject additional `fn_*` tools (for example `fn_review_spec`, `fn_review_step`, `fn_spawn_agent`) that are not part of the published skill surface.
 
@@ -36,7 +38,7 @@ Mission → Milestone → Slice → Feature → Task
 - **Insight tools** — `fn_insight_list`, `fn_insight_show`, `fn_insight_run_list`, `fn_insight_run_show`
 - **Other tools** — `fn_web_fetch`, `fn_secret_get`, `fn_research_run`, `fn_research_list`, `fn_research_get`, `fn_research_cancel`, `fn_research_retry`, `fn_experiment_finalize`
 <!-- END: tool-categories -->
-- **Dashboard** — Use `/fn` command to start/stop the dashboard
+- **Dashboard** — Use `/fn` when that agent command exists; otherwise use `fn dashboard --paused` or `fn dashboard --no-engine`
 
 </essential_principles>
 
@@ -99,6 +101,8 @@ For these operations, guide the user to the dashboard (`/fn`) or CLI commands do
 </known_limitations>
 
 <reference_index>
+
+For Codex and other CLI-only agents, load `references/codex-cli-workflows.md` before mutating Fusion state.
 
 | Reference | When to Use |
 |-----------|-------------|
